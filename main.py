@@ -12,12 +12,18 @@ import pandas as pd
 from tkinter import CENTER, ttk
 from tkinter import filedialog
 import mysql.connector
+from twilio.rest import Client
 
 from addStudents import add_to_database
 from makeAttendance import insert_attendance
 
 OUTPUT_PATH = Path(__file__).parent
 path = "C:\\Users\\Saiid\\Desktop\\Student Updated\\assets"
+
+LOGIN_PAGE_ASSETS_PATH = OUTPUT_PATH / \
+    Path(rf"{path}\\login")
+TWO_FACTORS_PAGE_ASSETS_PATH = OUTPUT_PATH / \
+    Path(rf"{path}\\two_factors")
 HOME_PAGE_ASSETS_PATH = OUTPUT_PATH / \
     Path(rf"{path}\\home")
 ADD_STUDENTS_PAGE_ASSETS_PATH = OUTPUT_PATH / \
@@ -31,7 +37,17 @@ otp = None
 def relative_to_assets(path: str, assets_path: Path) -> Path:
     return assets_path / Path(path)
 
+# def open_login_page():
+#     global window
 
+#     login_page()
+    
+# def open_two_factors_page():
+#     global window
+
+#     window.destroy()
+#     two_factors_page()
+    
 def open_home_page():
     global window
     if hasattr(window, 'generate_otp_id'):
@@ -61,6 +77,219 @@ def exit():
     global window
     
     window.destroy()
+    
+# def login_page():
+#     global window 
+#     window = Tk()
+
+#     window.geometry("550x313")
+#     window.configure(bg = "#FFFFFF")
+
+
+#     canvas = Canvas(
+#         window,
+#         bg = "#FFFFFF",
+#         height = 313,
+#         width = 550,
+#         bd = 0,
+#         highlightthickness = 0,
+#         relief = "ridge"
+#     )
+
+#     canvas.place(x = 0, y = 0)
+#     canvas.create_text(
+#         167.0,
+#         27.0,
+#         anchor="nw",
+#         text="Login Page",
+#         fill="#000000",
+#         font=("Inter", 24 * -1)
+#     )
+
+#     canvas.create_text(
+#         53.0,
+#         74.0,
+#         anchor="nw",
+#         text="Username:",
+#         fill="#000000",
+#         font=("Inter", 16 * -1)
+#     )
+
+#     button_image_1 = PhotoImage(
+#         file=relative_to_assets("button_1.png",LOGIN_PAGE_ASSETS_PATH))
+#     button_1 = Button(
+#         image=button_image_1,
+#         borderwidth=0,
+#         highlightthickness=0,
+#         command=lambda: open_two_factors_page(),
+#         relief="flat"
+#     )
+#     button_1.place(
+#         x=210.0,
+#         y=240.0,
+#         width=131.0,
+#         height=37.0
+#     )
+
+#     entry_image_1 = PhotoImage(
+#         file=relative_to_assets("entry_1.png", LOGIN_PAGE_ASSETS_PATH))
+#     entry_bg_1 = canvas.create_image(
+#         175.0,
+#         113.5,
+#         image=entry_image_1
+#     )
+#     entry_1 = Entry(
+#         bd=0,
+#         bg="#F5F5F5",
+#         fg="#000716",
+#         highlightthickness=0
+#     )
+#     entry_1.place(
+#         x=53.0,
+#         y=100.0,
+#         width=244.0,
+#         height=25.0
+#     )
+
+#     canvas.create_text(
+#         53.0,
+#         145.0,
+#         anchor="nw",
+#         text="Password:",
+#         fill="#000000",
+#         font=("Inter", 16 * -1)
+#     )
+
+#     entry_image_2 = PhotoImage(
+#         file=relative_to_assets("entry_2.png", LOGIN_PAGE_ASSETS_PATH))
+#     entry_bg_2 = canvas.create_image(
+#         175.0,
+#         183.5,
+#         image=entry_image_2
+#     )
+#     entry_2 = Entry(
+#         bd=0,
+#         bg="#F5F5F5",
+#         fg="#000716",
+#         highlightthickness=0
+#     )
+#     entry_2.place(
+#         x=53.0,
+#         y=170.0,
+#         width=244.0,
+#         height=25.0
+#     )
+#     window.resizable(False, False)
+#     window.mainloop()
+
+# def two_factors_page():
+#     global window
+#     window = Tk()
+
+#     window.geometry("550x313")
+#     window.configure(bg="#FFFFFF")
+
+#     n = random.randint(1000,9999)
+#     client = Client("AC70bdeb38d7de4903c4e58e9478726755",
+#                     "bec83e2ee1ab7a364617db1a8fdf081f")
+#     client.messages.create(to=["+96171933262"], from_="+96178929281", body=n)
+#     def resendSMS():
+#         n = random.randint(1000, 9999)
+#         client = Client("", "")
+#         client.messages.create(to=[""], from_="", body=n)
+    
+#     canvas = Canvas(
+#         window,
+#         bg="#FFFFFF",
+#         height=313,
+#         width=550,
+#         bd=0,
+#         highlightthickness=0,
+#         relief="ridge"
+#     )
+
+#     canvas.place(x=0, y=0)
+#     canvas.create_text(
+#         136.0,
+#         25.0,
+#         anchor="nw",
+#         text="Two-Factor Authentication",
+#         fill="#000000",
+#         font=("Inter", 24 * -1)
+#     )
+
+#     canvas.create_text(
+#         46.0,
+#         109.0,
+#         anchor="nw",
+#         text="Enter the sms Here:",
+#         fill="#000000",
+#         font=("Inter", 16 * -1)
+#     )
+
+#     button_image_1 = PhotoImage(
+#         file=relative_to_assets("button_1.png",TWO_FACTORS_PAGE_ASSETS_PATH))
+#     button_1 = Button(
+#         image=button_image_1,
+#         borderwidth=0,
+#         highlightthickness=0,
+#         command=lambda: print("button_1 clicked"),
+#         relief="flat"
+#     )
+#     button_1.place(
+#         x=323.0,
+#         y=195.0,
+#         width=131.0,
+#         height=37.0
+#     )
+
+#     button_image_2 = PhotoImage(
+#         file=relative_to_assets("button_2.png", TWO_FACTORS_PAGE_ASSETS_PATH))
+#     button_2 = Button(
+#         image=button_image_2,
+#         borderwidth=0,
+#         highlightthickness=0,
+#         command=lambda: print("button_2 clicked"),
+#         relief="flat"
+#     )
+#     button_2.place(
+#         x=46.0,
+#         y=200.0,
+#         width=131.0,
+#         height=37.0
+#     )
+
+#     entry_image_1 = PhotoImage(
+#         file=relative_to_assets("entry_1.png", TWO_FACTORS_PAGE_ASSETS_PATH))
+#     entry_bg_1 = canvas.create_image(
+#         332.0,
+#         120.5,
+#         image=entry_image_1
+#     )
+#     entry_1 = Entry(
+#         bd=0,
+#         bg="#F5F5F5",
+#         fg="#000716",
+#         highlightthickness=0
+#     )
+#     entry_1.place(
+#         x=210.0,
+#         y=107.0,
+#         width=244.0,
+#         height=25.0
+#     )
+
+#     def checkSMS():
+#         try:
+#             input = int(entry_1.get(1.0,"end-1c"))
+#             if(input==n):
+#                 open_home_page()
+#             else:
+#                 messagebox.showinfo("Failed!","Wrong SMS")
+#         except:
+#             messagebox.showinfo("Invalid!","Invalid SMS")
+#     window.resizable(False, False)
+#     window.mainloop()
 
 def home_page():
     global window
@@ -535,4 +764,5 @@ def qr_generator_page():
                     command=open_home_page)
     button2.pack(pady=10)
     
+#login_page()
 home_page()
