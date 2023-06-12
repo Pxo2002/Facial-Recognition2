@@ -30,7 +30,6 @@ def insert_attendance(session_time):
         print("Error while connecting to MySQL", e)
 
     finally:
-        # Close the database connection
         if connection.is_connected():
             cursor.close()
             connection.close()

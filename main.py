@@ -513,7 +513,6 @@ def add_students_page():
         image=entry_image_4
     )
 
-    # Create a button for selecting an image
     button_3 = Button(text="Select Image", command=select_file)
     button_3.pack()
     button_3.place(
@@ -535,7 +534,6 @@ def display_students_page():
     window = tk.Tk()
     window.title("Students Page")
 
-    # Connect to MySQL database
     cnx = mysql.connector.connect(
         host="localhost",
         user="root",
@@ -545,7 +543,6 @@ def display_students_page():
 
     cursor = cnx.cursor()
 
-    # Fetch data from the attendance table with student and course names
     cursor.execute("""
         SELECT attendance.id, students.name AS student_name, courses.course_name, attendance.status, attendance.session_time
         FROM attendance
@@ -558,16 +555,13 @@ def display_students_page():
 
     attendance_data = cursor.fetchall()
 
-    # Create a DataFrame from the fetched data
     df = pd.DataFrame(attendance_data, columns=attendance_columns)
     df.sort_values(by='Session Time', inplace=True)
 
     def populate_table():
         for i, row in df.iterrows():
-            # Decrypt the student name
             decrypted_name = cipher_suite.decrypt(row['Student Name']).decode()
 
-            # Replace the encrypted name with the decrypted name in the row
             row['Student Name'] = decrypted_name
 
             table.insert('', 'end', values=row.tolist())
@@ -578,10 +572,8 @@ def display_students_page():
             search_term, case=False)]
         table.delete(*table.get_children())
         for i, row in search_results.iterrows():
-            # Decrypt the student name
             decrypted_name = cipher_suite.decrypt(row['Student Name']).decode()
 
-            # Replace the encrypted name with the decrypted name in the row
             row['Student Name'] = decrypted_name
 
             table.insert('', 'end', values=row.tolist())
@@ -598,19 +590,15 @@ def display_students_page():
 
     title_label = ttk.Label(window, text="Students Page",
                             font=("Arial", 16, "bold"))
-    # Add title label at the top
     title_label.grid(row=0, column=0, columnspan=3, pady=10)
 
     search_entry = ttk.Entry(window, textvariable=search_var)
-    # Add padding to the right side
     search_entry.grid(row=1, column=0, padx=(100, 80), sticky=tk.E)
 
     search_button = ttk.Button(window, text="Search", command=search_records)
-    # Position the button next to the search input
     search_button.grid(row=1, column=0,  padx=(970, 0), sticky=tk.E)
 
     back_button = ttk.Button(window, text="Back", command=open_home_page)
-    # Position the button in the top right corner
     back_button.grid(row=0, column=2, sticky=tk.NE)
 
     table = ttk.Treeview(window, columns=attendance_columns,
@@ -620,7 +608,7 @@ def display_students_page():
             table.heading(i, text='Course Name')
         else:
             table.heading(i, text=column.title())
-        table.column(i, anchor=tk.CENTER)  # Center the text in each column
+        table.column(i, anchor=tk.CENTER) 
 
     table.grid(row=2, column=0, columnspan=3)
 
@@ -703,15 +691,14 @@ def qr_generator_page():
         conn.close()
     def generate_otp():
         global otp
-        if window.winfo_exists():  # Check if the window is still active
+        if window.winfo_exists(): 
             otp = random.randint(100000, 999999)
             otp_label.configure(text=f"OTP: {otp}")
             update_otp(otp)
             if hasattr(window, 'generate_otp_id'):
                 window.after_cancel(window.generate_otp_id)
-            # Start a new after() call
             window.generate_otp_id = window.after(
-                30000, generate_otp)  # Schedule the next execution
+                30000, generate_otp)  
 
     generate_otp()
     
@@ -719,7 +706,6 @@ def qr_generator_page():
         window, text="Click the button to generate QR code", font=("Arial", 12))
     label.pack()
 
-    # Frame for centering the button
     button_frame = Frame(window)
     button_frame.pack()
 
@@ -745,7 +731,7 @@ def qr_generator_page():
         global qr_image
         if qr_image:
             try:
-                qr_image.destroy()  # Destroy previous image object if exists
+                qr_image.destroy()  
             except tkinter.TclError:
                 pass
 
@@ -754,7 +740,7 @@ def qr_generator_page():
 
         image = ImageTk.PhotoImage(Image.open('qr_code.png'))
         qr_image.configure(image=image)
-        qr_image.image = image  # Store a reference to avoid garbage collection issue
+        qr_image.image = image  
     button1 = Button(button_frame, text="Generate",
                     command=generate_qr_code)
     button1.pack(pady=10)
@@ -763,4 +749,3 @@ def qr_generator_page():
     button2.pack(pady=10)
     
 login_page()
-#home_page()
