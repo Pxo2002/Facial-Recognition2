@@ -13,6 +13,7 @@ from tkinter import CENTER, ttk
 from tkinter import filedialog
 import mysql.connector
 from twilio.rest import Client
+from cryptography.fernet import Fernet
 
 from addStudents import add_to_database
 from makeAttendance import insert_attendance
@@ -547,6 +548,8 @@ def add_students_page():
 
 def display_students_page():
     global window
+    key = b'FwMO2y7T1iWUEhmaw3iVHn56jE09wjTMhrvBbUIoTLQ='
+    cipher_suite = Fernet(key)
     window = tk.Tk()
     window.title("Students Page")
 
@@ -579,6 +582,12 @@ def display_students_page():
 
     def populate_table():
         for i, row in df.iterrows():
+            # Decrypt the student name
+            decrypted_name = cipher_suite.decrypt(row['Student Name']).decode()
+
+            # Replace the encrypted name with the decrypted name in the row
+            row['Student Name'] = decrypted_name
+
             table.insert('', 'end', values=row.tolist())
 
     def search_records():
@@ -587,7 +596,14 @@ def display_students_page():
             search_term, case=False)]
         table.delete(*table.get_children())
         for i, row in search_results.iterrows():
+            # Decrypt the student name
+            decrypted_name = cipher_suite.decrypt(row['Student Name']).decode()
+
+            # Replace the encrypted name with the decrypted name in the row
+            row['Student Name'] = decrypted_name
+
             table.insert('', 'end', values=row.tolist())
+
 
     def export_to_excel():
         file_path = filedialog.asksaveasfilename(defaultextension=".xlsx")

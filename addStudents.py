@@ -1,6 +1,7 @@
 from tkinter import messagebox
 from mysql.connector import Error
 import mysql.connector
+from cryptography.fernet import Fernet
 
 def add_to_database(entry_1,entry_2,image_path):
    
@@ -24,10 +25,13 @@ def add_to_database(entry_1,entry_2,image_path):
             user='root',
             password=''
         )
-
+        key = b'FwMO2y7T1iWUEhmaw3iVHn56jE09wjTMhrvBbUIoTLQ='
+        cipher_suite = Fernet(key)
         if connection.is_connected():
             cursor = connection.cursor()
 
+            name = cipher_suite.encrypt(name.encode())
+            tp_number = cipher_suite.encrypt(tp_number.encode())
             # Prepare the INSERT statement
             insert_query = "INSERT INTO students (name, tp_number, image) VALUES (%s, %s, %s)"
             values = (name, tp_number, image_data)
