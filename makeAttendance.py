@@ -6,10 +6,10 @@ import mysql.connector
 def insert_attendance(session_time):
     try:
         connection = mysql.connector.connect(
-            host='localhost',
-            database='students',
-            user='root',
-            password=''
+            host='srv1031.hstgr.io',
+            database='u779400461_students',
+            user='u779400461_admin',
+            password='8@IZ?5HmYHe'
         )
 
         if connection.is_connected():

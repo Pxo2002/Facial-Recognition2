@@ -535,10 +535,10 @@ def display_students_page():
     window.title("Students Page")
 
     cnx = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="",
-        database="students"
+        host='srv1031.hstgr.io',
+        database='u779400461_students',
+        user='u779400461_admin',
+        password='8@IZ?5HmYHe'
     )
 
     cursor = cnx.cursor()
