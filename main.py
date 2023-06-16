@@ -718,7 +718,7 @@ def qr_generator_page():
         url_encoded_session_time = urlencode(
             {"session_time": session_time})
         print(url_encoded_session_time)
-        message = f"https://www.google.com?{url_encoded_session_time}"
+        message = f"https://facial-recognitions.onrender.com?{url_encoded_session_time}"
         if message:
             qr = qrcode.QRCode(version=1, box_size=10, border=5)
             qr.add_data(message)
