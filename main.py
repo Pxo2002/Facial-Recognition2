@@ -677,10 +677,10 @@ def qr_generator_page():
     otp_label.pack(pady=10)
     def update_otp(otp):
         conn = mysql.connector.connect(
-            host='localhost',
-            user='root',
-            password='',
-            database='students'
+            host='srv1031.hstgr.io',
+            database='u779400461_students',
+            user='u779400461_admin',
+            password='8@IZ?5HmYHe'
         )
         cursor = conn.cursor()
 
